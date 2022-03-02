@@ -96,8 +96,8 @@ function Weather() {
                     author={element.author ? element.author : "Unknown"} date={element.publishedAt} />
                 </div>
               })} */}
-                {parsedData?.daily?.map((e)=>{
-                    <Days day={day} temp={Math.ceil(parsedData?.daily?.temp).toString()}/>
+                {parsedData?.daily?.map((e, index)=>{
+                   return <Days day={day} temp={Math.ceil(parsedData?.daily?.temp).toString()} key={index}/>
                 })}
                      {/* <div
                       className="flex-column border"
