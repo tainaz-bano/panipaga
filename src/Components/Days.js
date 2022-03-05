@@ -5,8 +5,8 @@ const Days = (props) => {
   return (
     <>
       <div
-        className="flex-column border"
-        style={{ borderRadius: 10 + "px", padding: 0.75 + "rem" }}
+        className=" flex-column border"
+        style={{ borderRadius: 10 + "px", padding: 0.5 + "rem" }}
       >
         <p className="small mb-1">{day}</p>
         <p className="small mb-0">

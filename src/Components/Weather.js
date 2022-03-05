@@ -11,7 +11,6 @@ function Weather() {
   const [loading, setLoading] = useState(false);
   const [parsedData, setParsedData] = useState({});
   const [weatherDay, setWeatherDay] = useState("");
-  const [temp, setTemp] = useState('')
   navigator.geolocation.getCurrentPosition((position) => {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
@@ -22,8 +21,6 @@ function Weather() {
     let data = await fetch(url);
     let parseddata = await data.json();
     setParsedData(parseddata);
-    
-    if(parseddata?.current?.dt){
       const unixTimestamp = parseddata?.current?.dt;
       const milliseconds = unixTimestamp * 1000; // 1575909015000
       const dateObject = new Date(milliseconds);
@@ -31,16 +28,6 @@ function Weather() {
       setDay(dateObject.toLocaleString("en-US", { weekday: "long" }));
       let weather = parseddata?.current?.weather?.map((a) => a.main);
       setWeatherDay(weather);
-    }else if(parseddata?.daily?.dt){
-      const unixTimestamp = parseddata?.daily?.dt;
-      const milliseconds = unixTimestamp * 1000; // 1575909015000
-      const dateObject = new Date(milliseconds);
-      setHumanDateFormat(dateObject?.toLocaleString()); //2019-12-9 10:30:15
-      setDay(dateObject.toLocaleString("en-US", { weekday: "long" }));
-      // let weather = parseddata?.daily?.weather?.map((a) => a.main);
-      // setWeatherDay(weather);
-    }
-    // console.log(weather);
     setLoading(false);
     console.log(parseddata);
   };
@@ -49,11 +36,6 @@ function Weather() {
     updateWeather();
   }, []);
 
-  // const convertdt =  async () =>{
-
-  // }
-  // convertdt();
-  // console.log(props.lat)
   return (
     <div>
       {loading && <Spinner />}
@@ -86,67 +68,19 @@ function Weather() {
                       <p className="small mb-0">{weatherDay}</p>
                     </div>
                   </div>
-                  <div className="d-flex justify-content-around align-items-center mb-3">
+                  <div className="days align-items-center mb-3">
                     <div className="flex-column">
                       <i className="fas fa-minus"></i>
                     </div>
-                    {/* {article.map((element, index) => {
-                return <div className="col-md-4 my-3" key={index}>
-                  <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} img={element.urlToImage ? element.urlToImage : "https://images.hindustantimes.com/img/2022/02/11/1600x900/nirmala_sitharaman_1644562242946_1644562250427.JPG"} newsUrl={element.url}
-                    author={element.author ? element.author : "Unknown"} date={element.publishedAt} />
-                </div>
-              })} */}
-                {parsedData?.daily?.map((e, index)=>{
-                   return <Days day={day} temp={Math.ceil(parsedData?.daily?.temp).toString()} key={index}/>
-                })}
-                     {/* <div
-                      className="flex-column border"
-                      style={{ borderRadius: 10 + "px", padding: 0.75 + "rem" }}
-                    >
-                      <p className="small mb-1">Tue</p>
-                      <p className="small mb-0">
-                        <strong>-4°C</strong>
-                      </p>
-                    </div>
-                    <div
-                      className="flex-column border"
-                      style={{ borderRadius: 10 + "px", padding: 0.75 + "rem" }}
-                    >
-                      <p className="small mb-1">Wed</p>
-                      <p className="small mb-0">
-                        <strong>-4°C</strong>
-                      </p>
-                    </div>
-                    <div
-                      className="flex-column border"
-                      style={{ borderRadius: 10 + "px", padding: 0.75 + "rem" }}
-                    >
-                      <p className="small mb-1">Thu</p>
-                      <p className="small mb-0">
-                        <strong>-4°C</strong>
-                      </p>
-                    </div>
-                    <div
-                      className="flex-column border"
-                      style={{ borderRadius: 10 + "px", padding: 0.75 + "rem" }}
-                    >
-                      <p className="small mb-1">Fri</p>
-                      <p className="small mb-0">
-                        <strong>-4°C</strong>
-                      </p>
-                    </div>
-                    <div
-                      className="flex-column border"
-                      style={{ borderRadius: 10 + "px", padding: 0.75 + "rem" }}
-                    >
-                      <p className="small mb-1">Sat</p>
-                      <p className="small mb-0">
-                        <strong>-4°C</strong>
-                      </p>
-                    </div> */}
-                    {/* <div className="flex-column">
-                          <i className="fas fa-minus"></i>
-                        </div> */}
+                    {parsedData?.daily?.map((e, index) => {
+                      return (
+                        <Days
+                          day={day}
+                          temp={Math.ceil(e.feels_like?.day).toString()}
+                          key={index}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               </div>
